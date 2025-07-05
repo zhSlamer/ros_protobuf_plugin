@@ -45,10 +45,10 @@
 // }
 void chatterCallback(
     const ros::MessageEvent<superbai::sample::PublishInfo> &msg) {
-  std::cerr << "I heard: " << msg.getMessage()->DebugString() << std::endl;
+  // std::cerr << "I heard: " << msg.getMessage()->DebugString() << std::endl;
   std::string def =
       ros::message_traits::Definition<superbai::sample::PublishInfo>::value();
-  std::cout << "def: " << def << std::endl;
+  // std::cout << "def: " << def << std::endl;
 }
 // %EndTag(CALLBACK)%
 

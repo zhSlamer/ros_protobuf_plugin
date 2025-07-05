@@ -40,6 +40,9 @@ struct Serializer<T, typename std::enable_if<std::is_base_of<
                          ::google::protobuf::Message, T>::value>::type> {
   template <typename Stream>
   inline static void write(Stream &stream, const T &t) {
+/*     static auto total_duration = std::chrono::microseconds(0);
+    static int count = 1;
+    auto start = std::chrono::high_resolution_clock::now();
     std::string pb_str;
     t.SerializeToString(&pb_str);
     // 4个字节
@@ -51,12 +54,47 @@ struct Serializer<T, typename std::enable_if<std::is_base_of<
     }
     // std::cout << "pb_str" << std::endl;
     // stream.next(pb_str);
+    auto end = std::chrono::high_resolution_clock::now();
+    total_duration += std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Serialization took: " << total_duration.count()/count << " microseconds" << std::endl;
+    std::cout << "serial count:" << count << std::endl;
+    count++;  */
+
+    // 优化2  : 优化效率 计算
+    // advance 是预留空间 ​​返回移动前的指针位置​​（即写入数据的起始地址）, data_指针移动到末尾
+#if 0
+    static auto total_duration = std::chrono::microseconds(0);
+    static int count = 1;
+    auto start = std::chrono::high_resolution_clock::now();
+    uint32_t len_data = t.ByteSizeLong();
+    // 向数据中写入头部的4字节数据
+    stream.next(len_data);
+    if(!t.SerializeToArray(stream.advance(len_data), len_data)) {
+      throw std::runtime_error("Serialization failed");
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    total_duration += std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Serialization took: " << total_duration.count()/count << " microseconds" << std::endl;
+    std::cout << "serial count:" << count << std::endl;
+    count++; 
+#else
+      uint32_t len_data = t.ByteSizeLong();
+    // 向数据中写入头部的4字节数据
+    stream.next(len_data);
+    if(!t.SerializeToArray(stream.advance(len_data), len_data)) {
+      throw std::runtime_error("Serialization failed");
+    }
+    std::cout << "len: " << len_data << std::endl;
+    // std::cout << "pb:"<<(stream.getData() - len_data)<< std::endl;
+#endif
+    
   }
 
   // ros反序列化的接口
   template <typename Stream>
   inline static void read(Stream &stream, T &t) {
-    uint32_t len;
+
+/*      uint32_t len;
     // IStream
     stream.next(len);
     // std::cout << "len: " << len << std::endl;
@@ -70,15 +108,28 @@ struct Serializer<T, typename std::enable_if<std::is_base_of<
     } else {
       pb_str.clear();
     }
-
     // stream.next(pb_str);
-    t.ParseFromString(pb_str);
+    t.ParseFromString(pb_str);  */
+
+
+    // 优化3 将字节流数组反序列化到proto数据块中
+    uint32_t len_data;
+    stream.next(len_data);  // ISream 将前4个字节写入到 len_data变量
+    const uint8_t *data_ptr =
+        reinterpret_cast<const uint8_t *>(stream.advance(len_data));
+    if(!t.ParseFromArray(data_ptr, len_data)){
+      throw std::runtime_error("Parse failed"); 
+    } 
   }
 
   inline static uint32_t serializedLength(const T &t) {
-    std::string pb_str;
-    t.SerializeToString(&pb_str);
-    return 4 + (uint32_t)pb_str.size();
+    // std::string pb_str;
+    // t.SerializeToString(&pb_str);
+    // return 4 + (uint32_t)pb_str.size();
+    // 优化 1
+    uint32_t len = 4 + t.ByteSizeLong();
+    std::cout << "len: " << len << std::endl;
+    return len;
   }
 };
 

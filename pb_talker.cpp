@@ -14,14 +14,14 @@ int main(int argc, char **argv) {
   ros::Rate loop_rate(10);
   
   superbai::sample::PublishInfo proto_msg_info;
-  proto_msg_info.set_name("sorbai");
+  proto_msg_info.set_name("zhaoheng");
   proto_msg_info.set_message_type("test_message");
-  proto_msg_info.set_publish_msg("sorbai is a bilibili up");
+  proto_msg_info.set_publish_msg(std::string(1024*1024, '#'));
 
   int count = 0;
   while (ros::ok()) {
     pub.publish(proto_msg_info);
-    std::cerr << "DebugMsg: " << proto_msg_info.DebugString() << std::endl;
+    // std::cerr << "DebugMsg: " << proto_msg_info.DebugString() << std::endl;
     ros::spinOnce();
 
     loop_rate.sleep();
