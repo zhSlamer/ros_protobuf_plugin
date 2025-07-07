@@ -16,14 +16,15 @@ include_directories(${roscpp_INCLUDE_DIRS})
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ./src
 )
 
 
 # 创建四个可执行文件
-add_executable(pb_talker pb_talker.cpp)
-add_executable(pb_listener pb_listener.cpp)
-add_executable(talker talker.cpp)
-add_executable(listener listener.cpp)
+add_executable(pb_talker src/pb_talker.cpp)
+add_executable(pb_listener src/pb_listener.cpp)
+add_executable(talker src/talker.cpp)
+add_executable(listener src/listener.cpp)
 
 # 设置链接库
 target_link_libraries(pb_talker 
