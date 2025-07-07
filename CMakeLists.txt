@@ -38,32 +38,6 @@ include_directories(
 # 添加源文件编译
 # add_subdirectory(test_ros_protobuf)
 
-# add_executable(pb_talker pb_talker.cpp
-# )
-
-# add_dependencies(pb_talker copy_traits_files copy_serialization_files)
-
-# target_link_libraries(pb_talker 
-# ${roscpp_LIBRARIES} 
-# pb_proto
-# roscpp_proto_serialization
-# )
-
-
-# add_executable(pb_listener pb_listener.cpp)
-# target_link_libraries(pb_listener 
-# ${roscpp_LIBRARIES} 
-# pb_proto
-# roscpp_proto_serialization
-# )
-# add_dependencies(pb_listener copy_traits_files copy_serialization_files)
-
-# add_executable(talker talker.cpp)
-# target_link_libraries(talker ${roscpp_LIBRARIES} ${std_msgs_LIBRARIES})
-
-# add_executable(listener listener.cpp)
-# target_link_libraries(listener ${roscpp_LIBRARIES} ${std_msgs_LIBRARIES})
-
 # (optional) Install the executables.
 # install(TARGETS talker listener
 #         DESTINATION bin)
