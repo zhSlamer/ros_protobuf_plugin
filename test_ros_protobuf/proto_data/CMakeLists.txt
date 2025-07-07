@@ -4,9 +4,10 @@ find_package(Protobuf REQUIRED)
 #
 # Protobuf/Grpc source files
 #
+# 存储的是定义的proto文件
 set(PROTO_FILES
     publish_info.proto
-    
+    # imu_data.proto
 )
 
 #
@@ -20,8 +21,9 @@ target_link_libraries(pb_proto
         # gRPC::grpc++
 )
 target_include_directories(pb_proto PUBLIC
-${PROTOBUF_INCLUDE_DIRS} 
-${CMAKE_CURRENT_BINARY_DIR})
+    ${PROTOBUF_INCLUDE_DIRS} 
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 #
 # Compile protobuf and grpc files in mointor proto target to cpp

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(myproject)
+project(ros_protobuf)
 
 # Build the talker and listener. Each one uses the following ROS packages,
 # which we need to find_package() individually:
@@ -25,7 +25,7 @@ set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -g")
 # recommended CMake practice of returning absolute paths to libraries
 add_subdirectory(message_traits)
 add_subdirectory(message_serialization)
-add_subdirectory(sample_protos)
+# add_subdirectory(proto_data)
 # add_subdirectory(roscpp)
 
 include_directories(${roscpp_INCLUDE_DIRS})
@@ -35,35 +35,38 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(pb_talker pb_talker.cpp
-)
+# 添加源文件编译
+# add_subdirectory(test_ros_protobuf)
 
-add_dependencies(pb_talker copy_traits_files copy_serialization_files)
+# add_executable(pb_talker pb_talker.cpp
+# )
 
-target_link_libraries(pb_talker 
-${roscpp_LIBRARIES} 
-pb_proto
-roscpp_proto_serialization
-)
+# add_dependencies(pb_talker copy_traits_files copy_serialization_files)
+
+# target_link_libraries(pb_talker 
+# ${roscpp_LIBRARIES} 
+# pb_proto
+# roscpp_proto_serialization
+# )
 
 
-add_executable(pb_listener pb_listener.cpp)
-target_link_libraries(pb_listener 
-${roscpp_LIBRARIES} 
-pb_proto
-roscpp_proto_serialization
-)
-add_dependencies(pb_listener copy_traits_files copy_serialization_files)
+# add_executable(pb_listener pb_listener.cpp)
+# target_link_libraries(pb_listener 
+# ${roscpp_LIBRARIES} 
+# pb_proto
+# roscpp_proto_serialization
+# )
+# add_dependencies(pb_listener copy_traits_files copy_serialization_files)
 
-add_executable(talker talker.cpp)
-target_link_libraries(talker ${roscpp_LIBRARIES} ${std_msgs_LIBRARIES})
+# add_executable(talker talker.cpp)
+# target_link_libraries(talker ${roscpp_LIBRARIES} ${std_msgs_LIBRARIES})
 
-add_executable(listener listener.cpp)
-target_link_libraries(listener ${roscpp_LIBRARIES} ${std_msgs_LIBRARIES})
+# add_executable(listener listener.cpp)
+# target_link_libraries(listener ${roscpp_LIBRARIES} ${std_msgs_LIBRARIES})
 
 # (optional) Install the executables.
-install(TARGETS talker listener
-        DESTINATION bin)
+# install(TARGETS talker listener
+#         DESTINATION bin)
 
 # # (optional) Install the executables.
 # install(TARGETS talker listener
@@ -75,8 +78,8 @@ install(TARGETS talker listener
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 message("!!!!!!!!!!!!!!")
-message("pb = ${CMAKE_CURRENT_SOURCE_DIR}")
-message("${CATKIN_DEVEL_PREFIX}")
+message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
+message("CATKIN_DEVEL_PREFIX = ${CATKIN_DEVEL_PREFIX}")
 message("${CATKIN_PACKAGE_ETC_DESTINATION}")
 
 

@@ -16,7 +16,8 @@ int main(int argc, char **argv) {
   superbai::sample::PublishInfo proto_msg_info;
   proto_msg_info.set_name("zhaoheng");
   proto_msg_info.set_message_type("test_message");
-  proto_msg_info.set_publish_msg(std::string(1024*1024, '#'));
+  // proto_msg_info.set_publish_msg(std::string(1024*1024, '#'));
+  proto_msg_info.set_publish_msg("This is new publish");
 
   int count = 0;
   while (ros::ok()) {

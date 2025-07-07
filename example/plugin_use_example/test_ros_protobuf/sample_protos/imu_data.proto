@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+// 可选：引入标准Timestamp类型
+import "google/protobuf/timestamp.proto";
+
+message IMUData {
+
+// 传感器标识符 (e.g., "imu_front", "imu_vectornav")
+  string sensor_id = 1;
+
+// 坐标系标识符 (e.g., "base_link", "imu_link")
+  string frame_id = 2;
+
+  // 时间戳 - 强烈推荐使用google.protobuf.Timestamp
+  google.protobuf.Timestamp timestamp = 3; // 首选方案
+
+  // OR: 如果不想依赖外部库，可以用自定义表示（秒 + 纳秒）
+  // uint64 timestamp_sec = 4;
+  // uint32 timestamp_nsec = 5;
+
+// 三轴线性加速度 (m/s²)
+  float acceleration_x = 6;
+  float acceleration_y = 7;
+  float acceleration_z = 8;
+
+// 三轴角速度 (rad/s)
+  float angular_velocity_x = 9;
+  float angular_velocity_y = 10;
+  float angular_velocity_z = 11;
+
+// 可选：三轴姿态角 (通常来自滤波器融合，rad)
+  optional float orientation_roll = 12;
+  optional float orientation_pitch = 13;
+  optional float orientation_yaw = 14;
+
+// 可选：方向四元数 (如果直接提供)
+  optional float orientation_x = 15;
+  optional float orientation_y = 16;
+  optional float orientation_z = 17;
+  optional float orientation_w = 18;
+
+// 可选：加速度计和陀螺仪的协方差矩阵 (通常6x6，按行优先展开)
+  repeated float acceleration_covariance = 19; // [0..8] for 3x3, or [0..35] for 6x6?
+  repeated float angular_velocity_covariance = 20;
+
+  // 可选：传感器温度 (°C)
+  optional float temperature = 21;
+
+  // 可选：序列号或自定义状态标志
+  optional uint32 sequence_number = 22;
+  optional uint32 status_flags = 23;
+
+  // 可选：磁场强度 (µT)
+  optional float magnetic_field_x = 24;
+  optional float magnetic_field_y = 25;
+  optional float magnetic_field_z = 26;
+}
