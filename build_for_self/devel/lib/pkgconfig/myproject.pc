@@ -1,8 +1,0 @@
-prefix=/home/zh/backend/ros_protobuf_plugin/ros_protobuf_msg/build_for_self/devel
-
-Name: myproject
-Description: Description of myproject
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
