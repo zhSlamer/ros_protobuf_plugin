@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<package>
+  <name>example</name>
+  <version>0.0.0</version>
+  <description>proto sample package</description>
+  <maintainer email="zhaoheng@qq.com">zh</maintainer>
+  <license>zh license</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <run_depend>roscpp</run_depend>
+</package>
